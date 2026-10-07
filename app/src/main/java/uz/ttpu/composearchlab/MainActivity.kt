@@ -51,17 +51,46 @@ fun GreetingPreview() {
     }
 }
 
+//@Composable
+//fun NameScreen(modifier: Modifier = Modifier) {
+//    // rememberSaveable holatni Bundle'ga yozadi, shuning uchun ekran aylanganda Activity qayta yaratilsa ham qiymat saqlanib qoladi
+//    var name by rememberSaveable { mutableStateOf("") }
+//
+//    Column(modifier.padding(24.dp)) {
+//        OutlinedTextField(
+//            value = name,
+//            onValueChange = { name = it },
+//            label = { Text("Name") }
+//        )
+//        Text("Hello, $name!")
+//    }
+//}
+
+// O'zgartirdim
 @Composable
 fun NameScreen(modifier: Modifier = Modifier) {
-    // rememberSaveable holatni Bundle'ga yozadi, shuning uchun ekran aylanganda Activity qayta yaratilsa ham qiymat saqlanib qoladi
     var name by rememberSaveable { mutableStateOf("") }
 
     Column(modifier.padding(24.dp)) {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Name") }
+        NameField(                                          // holatsiz maydon
+            name = name,
+            onNameChange = { name = it }
         )
         Text("Hello, $name!")
     }
+}
+
+@Composable
+fun NameField(name: String, onNameChange: (String) -> Unit, modifier: Modifier = Modifier) {
+    OutlinedTextField(
+        value = name,
+        onValueChange = onNameChange,
+        label = { Text("Name") },
+        modifier = modifier
+    )
+}
+@Preview(showBackground = true)
+@Composable
+fun NameFieldPreview() {
+    NameField(name = "Amin", onNameChange = {})
 }
