@@ -4,13 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import uz.ttpu.composearchlab.ui.theme.ComposeArchLabTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeArchLabTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NameScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -43,5 +48,20 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     ComposeArchLabTheme {
         Greeting("Android")
+    }
+}
+
+@Composable
+fun NameScreen(modifier: Modifier = Modifier) {
+    // rememberSaveable holatni Bundle'ga yozadi, shuning uchun ekran aylanganda Activity qayta yaratilsa ham qiymat saqlanib qoladi
+    var name by rememberSaveable { mutableStateOf("") }
+
+    Column(modifier.padding(24.dp)) {
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Name") }
+        )
+        Text("Hello, $name!")
     }
 }
